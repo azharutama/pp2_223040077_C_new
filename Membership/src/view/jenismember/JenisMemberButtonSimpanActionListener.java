@@ -1,6 +1,5 @@
 package view.jenismember;
 
-
 import java.awt.event.*;
 import java.util.UUID;
 import model.JenisMember;

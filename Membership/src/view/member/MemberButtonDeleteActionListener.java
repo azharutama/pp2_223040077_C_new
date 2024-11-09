@@ -24,7 +24,8 @@ public class MemberButtonDeleteActionListener implements ActionListener {
             return;
         }
 
-        int confirm = JOptionPane.showConfirmDialog(memberFrame, "Apakah Anda yakin ingin menghapus member ini?", "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION);
+        int confirm = JOptionPane.showConfirmDialog(memberFrame,
+                "Apakah Anda yakin ingin menghapus member ini?", "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
             memberDao.delete(selectedMember);
             memberFrame.deleteMember(selectedMember);
