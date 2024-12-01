@@ -38,8 +38,4 @@ public class Member {
     return jenisMember;
   }
 
-  
-
-
-
 }

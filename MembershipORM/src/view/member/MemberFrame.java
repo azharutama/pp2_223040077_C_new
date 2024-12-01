@@ -13,6 +13,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import model.JenisMember;
 import model.Member;
+import view.jenismember.JenisMemberTableModel;
 
 public class MemberFrame extends JFrame {
     private List<JenisMember> jenisMemberList;
@@ -47,6 +48,14 @@ public class MemberFrame extends JFrame {
         JButton button = new JButton("Simpan"); // Tambahkan inisialisasi untuk tombol
         button.setBounds(15, 160, 150, 30);
 
+        JButton buttonDelete = new JButton("Delete");
+        buttonDelete.setBounds(15, 190, 150, 30);
+        buttonDelete.addActionListener(new MemberDeleteButtonActionListener(this, memberDao));
+
+        JButton buttonUpdate = new JButton("Update");
+        buttonUpdate.setBounds(15, 220, 150, 30);
+        buttonUpdate.addActionListener(new MemberUpdateButtonActionListener(this, memberDao));
+
         JTable table = new JTable();
         JScrollPane scrollableTable = new JScrollPane(table);
         scrollableTable.setBounds(15, 220, 350, 200);
@@ -60,6 +69,8 @@ public class MemberFrame extends JFrame {
 
         // Tambahkan komponen ke frame
         this.add(button);
+        this.add(buttonDelete);
+        this.add(buttonUpdate);
         this.add(textFieldNama);
         this.add(labelInput);
         this.add(labelJenis);
@@ -91,11 +102,20 @@ public class MemberFrame extends JFrame {
     }
 
     public void addMember(Member member) {
-        tableModel.add(member); // Tambahkan member ke tabel
+        tableModel.addMember(member); // Tambahkan member ke tabel
         textFieldNama.setText("");
     }
 
     public void showAlert(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
+
+      public MemberTableModel getTableModel() {
+        return tableModel;
+    }
+
+    public JTextField getTextFieldNama() {
+        return textFieldNama;  // Return the JTextField for name input
+    }
+
 }

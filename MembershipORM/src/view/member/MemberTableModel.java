@@ -1,50 +1,69 @@
 package view.member;
 
-import java.util.List;
-import javax.swing.table.AbstractTableModel;
 import model.Member;
+import javax.swing.table.AbstractTableModel;
+import java.util.List;
 
-public class MemberTableModel extends AbstractTableModel{
-    private String[] columnNames = {"Nama", "Jenis Member"};
-    private List<Member> data;
+public class MemberTableModel extends AbstractTableModel {
+    private String[] columnNames = {"ID", "Nama", "Jenis Member"};
+    private List<Member> memberList;
 
-    public MemberTableModel(List<Member> data) {
-        this.data = data;
+    public MemberTableModel(List<Member> memberList) {
+        this.memberList = memberList;
     }
 
-    public int getColumnCount(){
+    @Override
+    public int getColumnCount() {
         return columnNames.length;
     }
 
-    public int getRowCount(){
-        return data.size();
+    @Override
+    public int getRowCount() {
+        return memberList.size();
     }
 
-    public String getColumnName(int col){
-        return columnNames[col];
+    @Override
+    public String getColumnName(int columnIndex) {
+        return columnNames[columnIndex];
     }
 
-    public Object getValueAt(int row, int col){
-        Member rowItem = data.get(row);
-        String value = "";
-        switch (col){
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        Member member = memberList.get(rowIndex);
+        switch (columnIndex) {
             case 0:
-                value = rowItem.getNama();
-                break;
+                return member.getId();
             case 1:
-                value = rowItem.getJenisMember().getNama();
-                break;
+                return member.getNama();
+            case 2:
+                return member.getJenisMember().getNama(); // Assuming JenisMember has a getNama() method
+            default:
+                return null;
         }
-        return value;
     }
 
-    public boolean isCellEditable(int row, int col){
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
         return false;
     }
 
-    public void add(Member value){
-        data.add(value);
-        fireTableRowsInserted(data.size() - 1, data.size() - 1);
+    public void addMember(Member member) {
+        memberList.add(member);
+        fireTableRowsInserted(memberList.size() - 1, memberList.size() - 1);
     }
 
+    public void updateMember(int rowIndex, Member member) {
+        memberList.set(rowIndex, member);
+        fireTableRowsUpdated(rowIndex, rowIndex);
+    }
+
+    public void removeMember(int rowIndex) {
+        memberList.remove(rowIndex);
+        fireTableRowsDeleted(rowIndex, rowIndex);
+    }
+
+    public int getSelectedRow() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getSelectedRow'");
+    }
 }

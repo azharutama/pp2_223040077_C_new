@@ -1,14 +1,10 @@
 package view.jenismember;
 
 import dao.JenisMemberDao;
-import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import model.JenisMember;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.util.List;
 
 public class JenisMemberFrame extends JFrame {
 
@@ -16,9 +12,9 @@ public class JenisMemberFrame extends JFrame {
     private JTextField textFieldNama;
     private JenisMemberTableModel tableModel;
     private JenisMemberDao jenisMemberDao;
+    private JTable table;
 
     public JenisMemberFrame(JenisMemberDao jenisMemberDao) {
-
         this.jenisMemberDao = jenisMemberDao;
         this.jenisMemberList = jenisMemberDao.findAll();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -33,11 +29,21 @@ public class JenisMemberFrame extends JFrame {
         textFieldNama.setBounds(15, 50, 350, 30);
 
         // Tombol simpan
-        JButton button = new JButton("Simpan");
-        button.setBounds(15, 90, 100, 30);
+        JButton buttonSave = new JButton("Simpan");
+        buttonSave.setBounds(15, 90, 100, 30);
+
+        // Tombol delete
+        JButton buttonDelete = new JButton("Delete");
+        buttonDelete.setBounds(130, 90, 100, 30);
+        buttonDelete.addActionListener(new JenisMemberDeleteButtonActionListener(this, jenisMemberDao));
+
+        // Tombol update
+        JButton buttonUpdate = new JButton("Update");
+        buttonUpdate.setBounds(245, 90, 100, 30);
+        buttonUpdate.addActionListener(new JenisMemberUpdateButtonActionListener(this, jenisMemberDao));
 
         // Tabel untuk menampilkan data
-        JTable table = new JTable();
+        table = new JTable();
         JScrollPane scrollableTable = new JScrollPane(table);
         scrollableTable.setBounds(15, 140, 350, 300);
 
@@ -46,13 +52,13 @@ public class JenisMemberFrame extends JFrame {
         table.setModel(tableModel);
 
         // Menambahkan listener ke tombol simpan
-        JenisMemberButtonSimpanActionListener actionListener =
-                new JenisMemberButtonSimpanActionListener(this, jenisMemberDao);
-
-        button.addActionListener(actionListener);
+        JenisMemberButtonSimpanActionListener actionListener = new JenisMemberButtonSimpanActionListener(this, jenisMemberDao);
+        buttonSave.addActionListener(actionListener);
 
         // Menambahkan komponen ke frame
-        this.add(button);
+        this.add(buttonSave);
+        this.add(buttonDelete);
+        this.add(buttonUpdate);
         this.add(textFieldNama);
         this.add(labelInput);
         this.add(scrollableTable);
@@ -77,7 +83,56 @@ public class JenisMemberFrame extends JFrame {
      * @param jenisMember objek JenisMember yang akan ditambahkan
      */
     public void addJenisMember(JenisMember jenisMember) {
-        tableModel.add(jenisMember);
+        tableModel.addJenisMember(jenisMember);
         textFieldNama.setText("");
     }
+
+    /**
+     * Mengupdate data JenisMember pada tabel.
+     *
+     * @param jenisMember objek JenisMember yang sudah diperbarui
+     * @param row indeks baris yang akan diupdate
+     */
+    public void updateJenisMember(JenisMember jenisMember, int row) {
+        tableModel.update(row, jenisMember);
+        textFieldNama.setText("");
+    }
+
+    /**
+     * Menghapus data JenisMember dari tabel.
+     *
+     * @param row indeks baris yang akan dihapus
+     */
+    public void deleteJenisMember(int row) {
+        tableModel.remove(row);
+        textFieldNama.setText("");
+    }
+
+    /**
+     * Mengambil objek JenisMember yang dipilih pada tabel.
+     *
+     * @return JenisMember yang dipilih
+     */
+    public JenisMember getSelectedJenisMember() {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow != -1) {
+            return jenisMemberList.get(selectedRow);
+        }
+        return null;
+    }
+
+    /**
+     * Mengembalikan model tabel yang digunakan untuk menampilkan data.
+     *
+     * @return JenisMemberTableModel yang digunakan
+     */
+    public JenisMemberTableModel getTableModel() {
+        return tableModel;
+    }
+
+    public JTextField getTextFieldNama() {
+        return textFieldNama;  // Return the JTextField for name input
+    }
+
+    
 }

@@ -31,10 +31,10 @@ public class MemberDao {
         return result;
     }
 
-    public int delete(Member member){
+    public int delete(String memberId){
         int result;
         try (SqlSession sqlSession = sqlSessionFactory.openSession()){
-            result = sqlSession.delete("mapper.member.delete", member);
+            result = sqlSession.delete("mapper.member.delete", memberId);
         }
         return result;
     }

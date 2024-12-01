@@ -29,7 +29,7 @@ public class JenisMemberDao {
         return result;
     }
 
-    public int delete(JenisMember jenisMember) {
+    public int delete(int jenisMember) {
         int result;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             result = session.delete("mapper.JenisMemberMapper.delete", jenisMember);
@@ -44,4 +44,5 @@ public class JenisMemberDao {
         }
         return result;
     }
+
 }
