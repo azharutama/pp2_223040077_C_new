@@ -5,46 +5,46 @@ import model.Member;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import model.JenisMember;
-
 public class MemberDao {
 
-    private final  SqlSessionFactory sqlSessionFactory;
+  private final SqlSessionFactory sqlSessionFactory;
 
-    public MemberDao(SqlSessionFactory sqlSessionFactory){
-        this.sqlSessionFactory = sqlSessionFactory;
-    }
+  public MemberDao(SqlSessionFactory sqlSessionFactory) {
+    this.sqlSessionFactory = sqlSessionFactory;
+  }
 
-    public int insert(Member member){
-        int result;
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()){
-            result = sqlSession.insert("mapper.member.insert", member);
-        }
-        return result;
+  public int insert(Member member) {
+    int result;
+    try (SqlSession session = sqlSessionFactory.openSession()) {
+      result = session.insert("mapper.MemberMapper.insert", member);
     }
+    return result;
+  }
 
-    public int update(Member member){
-        int result;
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()){
-            result = sqlSession.update("mapper.member.update", member);
-        }
-        return result;
+  public int update(Member member) {
+    int result;
+    try (SqlSession session = sqlSessionFactory.openSession()) {
+      result = session.update("mapper.MemberMapper.update", member);
     }
+    return result;
+  }
 
-    public int delete(String memberId){
-        int result;
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()){
-            result = sqlSession.delete("mapper.member.delete", memberId);
-        }
-        return result;
+  public int delete(Member member) {
+    int result;
+    try (SqlSession session = sqlSessionFactory.openSession()) {
+      result = session.delete("mapper.MemberMapper.delete", member);
     }
+    return result;
+  }
 
-    public List<Member> findAll() {
-      
-        List<Member> result;
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()){
-            result = sqlSession.selectList("mapper.member.findAll");
-        }
-        return result;
+  public List<Member> findAll() {
+    List<Member> result;
+    try (SqlSession session = sqlSessionFactory.openSession()) {
+      result = session.selectList("mapper.MemberMapper.findAll");
     }
+    return result;
+  }
+  
+
+
 }

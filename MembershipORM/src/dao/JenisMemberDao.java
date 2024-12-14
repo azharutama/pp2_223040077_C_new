@@ -5,6 +5,7 @@ import model.JenisMember;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+
 public class JenisMemberDao {
 
     private final SqlSessionFactory sqlSessionFactory;

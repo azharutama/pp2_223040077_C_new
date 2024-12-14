@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Biodata/Biodata.iml" filepath="$PROJECT_DIR$/Biodata/Biodata.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Membership/Membership.iml" filepath="$PROJECT_DIR$/Membership/Membership.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MembershipORM/MembershipORM.iml" filepath="$PROJECT_DIR$/MembershipORM/MembershipORM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Pertemuan 7.iml" filepath="$PROJECT_DIR$/.idea/Pertemuan 7.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jfc-mvc/jfc-mvc.iml" filepath="$PROJECT_DIR$/jfc-mvc/jfc-mvc.iml" />
+    </modules>
+  </component>
+</project>
