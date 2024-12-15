@@ -1,12 +1,9 @@
-
 package view;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-/**
- *
- * @author thega
- */
+
 public class UserView extends JFrame {
     private JTextField txtName = new JTextField(20);
     private JTextField txtEmail = new JTextField(20);
@@ -14,41 +11,53 @@ public class UserView extends JFrame {
     private JButton btnRefresh = new JButton("Refresh");
     private JList<String> userList = new JList<>();
     private DefaultListModel<String> listModel = new DefaultListModel<>();
+
     public UserView() {
         setTitle("User Management");
-        setSize (400, 300);
-        setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-        JPanel panel = new JPanel (new GridLayout (5, 1));
-        panel.add(new JLabel ("Name:"));
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel panel = new JPanel(new GridLayout(5, 1));
+        panel.add(new JLabel("Name:"));
         panel.add(txtName);
         panel.add(new JLabel("Email:"));
         panel.add(txtEmail);
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(btnAdd);
         buttonPanel.add(btnRefresh);
         panel.add(buttonPanel);
+
+        // Setup JList with DefaultListModel
         userList.setModel(listModel);
+        userList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane scrollPane = new JScrollPane(userList);
+
         add(panel, BorderLayout.NORTH);
-        add(new JScrollPane (userList), BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
     }
-    public String getNameInput () {
+
+    public String getNameInput() {
         return txtName.getText();
     }
 
     public String getEmailInput() {
         return txtEmail.getText();
     }
-    public void setUserList (String[] users) {
-        listModel.clear();
+
+    // Method to update the JList with the users array
+    public void setUserList(String[] users) {
+        listModel.clear();  // Clear the current list before adding new data
         for (String user : users) {
-            listModel.addElement(user);
+            listModel.addElement(user);  // Add each user to the JList
         }
     }
 
-    public void addAddUserListener (ActionListener listener) {
+    public void addAddUserListener(ActionListener listener) {
         btnAdd.addActionListener(listener);
     }
-    public void addRefreshListener (ActionListener listener) {
+
+    public void addRefreshListener(ActionListener listener) {
         btnRefresh.addActionListener(listener);
     }
 }

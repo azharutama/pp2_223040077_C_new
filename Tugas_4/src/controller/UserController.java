@@ -1,16 +1,14 @@
 package controller;
+
 import model.*;
 import view.UserView;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-/**
- *
- * @author thega
- */
+
 public class UserController {
     private UserView view;
     private UserMapper mapper;
@@ -28,24 +26,48 @@ public class UserController {
         public void actionPerformed(ActionEvent e) {
             String name = view.getNameInput();
             String email = view.getEmailInput();
+
             if (!name.isEmpty() && !email.isEmpty()) {
                 User user = new User();
                 user.setName(name);
                 user.setEmail(email);
-                mapper.insertUser(user);
-                JOptionPane.showMessageDialog(view, "User added successfully!");
+
+                // Membuka sesi MyBatis untuk operasi database
+                SqlSession session = MyBatisUtil.getSqlSession();
+                try {
+                    // Mendapatkan mapper dari sesi
+                    UserMapper mapper = session.getMapper(UserMapper.class);
+
+                    // Menyisipkan data ke dalam database
+                    mapper.insertUser(user);
+
+                    // Melakukan commit transaksi untuk memastikan data disimpan
+                    session.commit();
+
+                    // Menampilkan pesan sukses
+                    JOptionPane.showMessageDialog(view, "User added successfully!");
+                } catch (Exception ex) {
+                    // Jika terjadi kesalahan, rollback transaksi
+                    session.rollback();
+                    JOptionPane.showMessageDialog(view, "Error while adding user!");
+                } finally {
+                    // Menutup sesi setelah operasi selesai
+                    session.close();
+                }
             } else {
-                JOptionPane.showMessageDialog(view, "please fill in all fields.");
+                JOptionPane.showMessageDialog(view, "Please fill in all fields.");
             }
         }
     }
+
     class RefreshListener implements ActionListener {
         @Override
-        public void actionPerformed (ActionEvent e) {
+        public void actionPerformed(ActionEvent e) {
             List<User> users = mapper.getAllUsers();
             String[] userArray = users.stream()
-                    .map(u -> u.getName()+ " (" + u.getEmail() + ")")
+                    .map(u -> u.getName() + " (" + u.getEmail() + ")")
                     .toArray(String[]::new);
+
             view.setUserList(userArray);
         }
     }

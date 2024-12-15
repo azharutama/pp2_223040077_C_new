@@ -3,10 +3,7 @@ import model.UserMapper;
 import org.apache.ibatis.session.SqlSession;
 import view.UserView;
 import controller.UserController;
-/**
- *
- * @author thega
- */
+
 public class Main {
     public static void main(String[] args) {
         SqlSession session = MyBatisUtil.getSqlSession();
@@ -18,3 +15,4 @@ public class Main {
         view.setVisible(true);
     }
 }
+

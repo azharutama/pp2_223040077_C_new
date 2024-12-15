@@ -1,14 +1,20 @@
 package model;
+
 import java.util.List;
-import org.apache.ibatis.annotations.*;
-/**
- *
- * @author thega
- */
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
+
 public interface UserMapper {
+
     @Select("SELECT * FROM users")
-    List<User> getAllUsers();
+    default List<User> getAllUsers() {
+        return null;
+    }
 
     @Insert("INSERT INTO users (name, email) VALUES (#{name}, #{email})")
     void insertUser(User user);
+
+
+
+
 }
