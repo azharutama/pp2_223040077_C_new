@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import view.UserView;
+import view.UserPdf;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,8 +12,9 @@ import java.util.List;
 public class UserController {
     private UserView view;
     private UserMapper mapper;
+    private UserPdf pdf;
 
-    public UserController(UserView view, UserMapper mapper) {
+    public UserController(UserView view, UserMapper mapper, UserPdf pdf) {
         this.view = view;
         this.mapper = mapper;
 
@@ -20,6 +22,8 @@ public class UserController {
         this.view.addRefreshListener(new RefreshListener());
         this.view.addUpdateUserListener(new UpdateUserListener());
         this.view.addDeleteUserListener(new DeleteUserListener());
+        this.view.addExportPdfListener(new ExportPdfListener());
+
     }
 
     class AddUserListener implements ActionListener {
@@ -97,6 +101,19 @@ public class UserController {
                 }
             } else {
                 JOptionPane.showMessageDialog(view, "Please select a user to delete.");
+            }
+        }
+    }
+
+    class ExportPdfListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (pdf != null) {  // Pastikan objek pdf tidak null
+                List<User> users = mapper.getAllUsers();
+                pdf.exportPdf(users);
+                JOptionPane.showMessageDialog(view, "PDF exported successfully!");
+            } else {
+                JOptionPane.showMessageDialog(view, "PDF export failed. PDF object is null.");
             }
         }
     }

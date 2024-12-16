@@ -14,6 +14,7 @@ public class UserView extends JFrame {
     private JButton btnUpdate = new JButton("Update User");
     private JButton btnDelete = new JButton("Delete User");
     private JButton btnRefresh = new JButton("Refresh");
+    private  JButton btnExport = new JButton("Export PDF");
     private JTable userTable;
     private DefaultTableModel tableModel;
 
@@ -23,7 +24,7 @@ public class UserView extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Panel input
-        JPanel panel = new JPanel(new GridLayout(7, 1));
+        JPanel panel = new JPanel(new GridLayout(5, 1));
         panel.add(new JLabel("Name:"));
         panel.add(txtName);
         panel.add(new JLabel("Email:"));
@@ -39,6 +40,7 @@ public class UserView extends JFrame {
         buttonPanel.add(btnUpdate);
         buttonPanel.add(btnDelete);
         buttonPanel.add(btnRefresh);
+        buttonPanel.add(btnExport);
         panel.add(buttonPanel);
 
         // Tabel data pengguna
@@ -97,4 +99,10 @@ public class UserView extends JFrame {
     public void addRefreshListener(ActionListener listener) {
         btnRefresh.addActionListener(listener);
     }
+
+    public void addExportPdfListener(ActionListener listener) {
+        btnExport.addActionListener(listener);
+    }
+
+
 }
