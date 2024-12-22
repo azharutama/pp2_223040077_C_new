@@ -23,6 +23,7 @@ public class UserController {
         this.view.addUpdateUserListener(new UpdateUserListener());
         this.view.addDeleteUserListener(new DeleteUserListener());
         this.view.addExportPdfListener(new ExportPdfListener());
+        this.view.addStartButtonListener(new startButtonListener());
 
     }
 
@@ -118,4 +119,38 @@ public class UserController {
         }
     }
 
+    public class startButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.getStartButton().setEnabled(false); // Akses melalui getter
+            view.getStatusLabel().setText("Tugas berat sedang berjalan"); // Akses melalui getter
+
+            SwingWorker<Void, Integer> worker = new SwingWorker<>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    for (int i = 0; i <= 100; i++) {
+                        Thread.sleep(50);
+                        publish(i);
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void process(List<Integer> chunks) {
+                    int latestProgress = chunks.get(chunks.size() - 1);
+                    view.getProgressBar().setValue(latestProgress); // Akses melalui getter
+                }
+
+                @Override
+                protected void done() {
+                    view.getStartButton().setEnabled(true); // Akses melalui getter
+                    view.getStatusLabel().setText("Tugas berat selesai"); // Akses melalui getter
+                }
+            };
+            worker.execute();
+        }
+    }
+
 }
+

@@ -1,9 +1,12 @@
 package view;
 
+import controller.UserController;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.beans.PropertyEditor;
 
 public class UserView extends JFrame {
     private JTextField txtName = new JTextField(20);
@@ -17,6 +20,10 @@ public class UserView extends JFrame {
     private  JButton btnExport = new JButton("Export PDF");
     private JTable userTable;
     private DefaultTableModel tableModel;
+    private  JButton startButton = new JButton("Mulai");
+    private  JProgressBar progressBar = new JProgressBar(0, 60);
+    private JLabel statusLabel = new JLabel("Tekan tombol memulai", JLabel.CENTER);
+
 
     public UserView() {
         setTitle("User Management");
@@ -24,7 +31,7 @@ public class UserView extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Panel input
-        JPanel panel = new JPanel(new GridLayout(5, 1));
+        JPanel panel = new JPanel(new GridLayout(6, 1));
         panel.add(new JLabel("Name:"));
         panel.add(txtName);
         panel.add(new JLabel("Email:"));
@@ -34,6 +41,8 @@ public class UserView extends JFrame {
         panel.add(new JLabel("No Telepon:"));
         panel.add(txtNoTelp);
 
+
+
         // Panel tombol
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(btnAdd);
@@ -41,6 +50,7 @@ public class UserView extends JFrame {
         buttonPanel.add(btnDelete);
         buttonPanel.add(btnRefresh);
         buttonPanel.add(btnExport);
+        buttonPanel.add(startButton);
         panel.add(buttonPanel);
 
         // Tabel data pengguna
@@ -48,8 +58,13 @@ public class UserView extends JFrame {
         userTable = new JTable(tableModel);
         JScrollPane tableScrollPane = new JScrollPane(userTable);
 
+        JPanel statusPanel = new JPanel();
+        statusPanel.add(statusLabel, BorderLayout.NORTH);
+        statusPanel.add(progressBar, BorderLayout.CENTER);
+
         add(panel, BorderLayout.NORTH);
         add(tableScrollPane, BorderLayout.CENTER);
+        add(statusPanel, BorderLayout.SOUTH);
     }
 
     // Getter untuk input
@@ -105,4 +120,18 @@ public class UserView extends JFrame {
     }
 
 
+    public void addStartButtonListener(UserController.startButtonListener startButtonListener) {
+    }
+
+    public JButton getStartButton() {
+        return startButton;
+    }
+
+    public JProgressBar getProgressBar() {
+        return progressBar;
+    }
+
+    public JLabel getStatusLabel() {
+        return statusLabel;
+    }
 }
