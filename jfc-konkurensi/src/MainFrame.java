@@ -25,15 +25,31 @@ public class MainFrame {
         frame.add(startButton, BorderLayout.SOUTH);
 
         startButton.addActionListener(e->{
-            for (int i = 0; i <= 60; i++) {
-                progressBar.setValue(i);
-                try {
-                    Thread.sleep(1000);
-                } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
-                }
+           startButton.setEnabled(false);
+           statusLabel.setText("Tugas berat sedang berjalan");
 
-            }
+           SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>(){
+               @Override
+               protected Void doInBackground() throws Exception {
+                   for(int i = 0; i <= 100; i++){
+                       Thread.sleep(50);
+                       publish(i);
+                   }
+                   return null;
+               }
+
+               @Override
+               protected void process(List<Integer> chunks) {
+                  int latesProgress = chunks.get(chunks.size() - 1);
+                    progressBar.setValue(latesProgress);
+               }
+
+               @Override
+               protected void done() {
+                   startButton.setEnabled(true);
+                   statusLabel.setText("Tugas berat selesai");
+               }
+           };
         });
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
